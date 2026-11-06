@@ -233,7 +233,7 @@ details p { padding: 0 18px 16px; color: var(--muted); font-size: 15.5px; }
 .bar .p small { display: block; font-size: 12px; color: var(--muted); }
 .bar .p b { font-family: var(--font-mono); font-size: 22px; font-variant-numeric: tabular-nums; }
 .bar .p s { font-size: 12px; color: var(--muted); margin-left: 6px; font-family: var(--font-mono); }
-.bar .btn { min-height: 46px; font-size: 16px; padding-inline: 22px; white-space: nowrap; }
+.bar .btn { min-height: 46px; font-size: 16px; padding-inline: 22px; white-space: nowrap; flex: 1; }
 </style>
 </head>
 <body>
@@ -246,27 +246,10 @@ details p { padding: 0 18px 16px; color: var(--muted); font-size: 15.5px; }
     <p class="sub"><b>我自己開機車行，也在教 LINE 官方帳號。</b>你只要備好素材、把我加入管理員，設定我來做，做完再到店教你和夥伴怎麼用。</p>
 
     <div class="offer">
-      <div class="tag">
-        <p class="was">市價 <s>NT$15,888</s></p>
-        <p class="now-label">商會車行價</p>
-        <p class="now"><small>NT$</small>5,888</p>
-        <p class="save">車行完整設立，省下 NT$10,000</p>
-      </div>
       <div class="hero-cta">
         <a class="btn" href="#contact">我要預約設立</a>
         <p>設立加到店教學，一次完成。</p>
       </div>
-    </div>
-
-    <div class="chat" aria-label="設好之後的客人對話範例">
-      <p class="cap">設好之後，客人這樣問、你這樣回</p>
-      <div class="bub me">七代戰 125、155 價格多少？</div>
-      <div class="cards">
-        <div class="mini"><b>七代戰 125</b><span>價格・分期</span></div>
-        <div class="mini"><b>七代戰 155</b><span>價格・分期</span></div>
-      </div>
-      <div class="bub me">明天有開嗎？（晚上 11:40）</div>
-      <div class="bub shop"><span class="lbl">休息時間自動回覆</span>目前是休息時間。車價與分期請看下方卡片，營業後第一時間回覆您。</div>
     </div>
   </div>
 </header>
@@ -349,51 +332,6 @@ details p { padding: 0 18px 16px; color: var(--muted); font-size: 15.5px; }
       <li><div><b>我開始設置</b><span>上面七個項目由我完成，做好會讓你先確認。</span></div></li>
       <li><div><b>到店教學</b><span>我到你的店，教你和夥伴怎麼回訊息、改內容、發群發。</span></div></li>
     </ol>
-    <div class="prep">
-      <h3>要先準備的素材（範例清單）</h3>
-      <ul>
-        <li>店面外觀與店內照片</li>
-        <li>Logo 或店招</li>
-        <li>營業時間與公休日</li>
-        <li>地址與電話</li>
-        <li>主力品牌與車款及價格</li>
-        <li>店內 10 吋、12 吋、13 吋輪胎：主力型號各 5 條與價錢</li>
-        <li>大保養的流程照片、保養項目與價格</li>
-        <li>10 個最難回答的問題（我給公版，你再修改成符合你店的風格）</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="band pricing">
-  <div class="in">
-    <div class="head">
-      <p class="eyebrow">價格</p>
-      <h2>商會車行價 NT$5,888</h2>
-    </div>
-    <div class="pgrid">
-      <div class="tag">
-        <p class="was">市價 <s>NT$15,888</s></p>
-        <p class="now-label">商會車行價</p>
-        <p class="now"><small>NT$</small>5,888</p>
-        <p class="save">含設立與到店教學，省下 NT$10,000</p>
-      </div>
-      <div class="notes">
-        <h3>不含：LINE 官方帳號月費</h3>
-        <p>月費與訊息費由店家自己負擔，依用量選方案。目前的方案如下：</p>
-        <div class="fee">
-          <table>
-            <thead><tr><th>方案</th><th>月費</th><th>則數</th></tr></thead>
-            <tbody>
-              <tr><td>輕用量</td><td>NT$0</td><td>200</td></tr>
-              <tr><td>中用量</td><td>NT$1,000</td><td>3,000</td></tr>
-              <tr><td>高用量</td><td>NT$1,400</td><td>6,000</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p>自動回覆與一對一聊天不算則數，群發才算。我會依你的店幫你評估要選哪一個。</p>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -426,10 +364,6 @@ details p { padding: 0 18px 16px; color: var(--muted); font-size: 15.5px; }
         <p>到店教學就是教你和夥伴自己改，包含訊息、選單、群發和優惠券。</p>
       </details>
       <details>
-        <summary>LINE 官方帳號的月費包含在內嗎？</summary>
-        <p>不包含。月費與訊息費由店家負擔，我會依你的店評估要選哪個方案。</p>
-      </details>
-      <details>
         <summary>我的店不在服務區域可以嗎？</summary>
         <p>可以。泰山、新莊、樹林、五股、林口、台北市、三重、蘆洲、中和、永和等雙北地區為主要服務區域，其他區域提供線上服務。</p>
       </details>
@@ -445,11 +379,10 @@ details p { padding: 0 18px 16px; color: var(--muted); font-size: 15.5px; }
   </div>
 </section>
 
-<footer class="in foot">商會車行價適用於本頁方案，實際內容以預約確認為準。</footer>
+<footer class="in foot">實際內容以預約確認為準。</footer>
 
 <div class="bar">
   <div class="row">
-    <div class="p"><small>商會車行價</small><b>NT$5,888</b><s>NT$15,888</s></div>
     <a class="btn" href="#contact">預約設立</a>
   </div>
 </div>
