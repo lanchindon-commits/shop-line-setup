@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>車行LINE完整設立</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: 單欄手機優先。深綠首屏(老闆親自架設)＋ 工單風格的內容區，價目牌用黃色吊牌，只有首屏用重色。 */
+:root {
+  --bg: #F2F6F3;
+  --surface: #FFFFFF;
+  --ink: #10201A;
+  --muted: #53655E;
+  --line: #D3DED8;
+  --accent-fill: #06C755;
+  --on-accent: #04210F;
+  --accent-text: #057A3A;
+  --tint: #E4F3EA;
+  --signal: #FFC21A;
+  --on-signal: #2E2300;
+  --pain: #B4382B;
+  --hero-bg: #0B2419;
+  --hero-fg: #F1F8F4;
+  --hero-muted: #A9C4B6;
+  --hero-panel: #12362A;
+  --hero-bubble: #1D4A3A;
+  --font-sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Heiti TC", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0A1410; --surface: #12211B; --ink: #E7F0EB; --muted: #9AB0A7; --line: #243A31;
+    --accent-text: #43DD87; --tint: #16352A; --pain: #FF8F82; --hero-bg: #071A11;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0A1410; --surface: #12211B; --ink: #E7F0EB; --muted: #9AB0A7; --line: #243A31;
+  --accent-text: #43DD87; --tint: #16352A; --pain: #FF8F82; --hero-bg: #071A11;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-sans); font-size: 16px; line-height: 1.75;
+  padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+}
+h1, h2, h3, p, ul, ol { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--signal); outline-offset: 2px; }
+
+.in {
+  max-width: 760px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.band { padding-block: 44px; }
+.eyebrow {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: .14em;
+  color: var(--accent-text); text-transform: uppercase;
+}
+h2 { font-size: clamp(24px, 6vw, 32px); line-height: 1.3; font-weight: 900; text-wrap: balance; margin-top: 6px; }
+.lead { color: var(--muted); margin-top: 10px; max-width: 34em; }
+.head { margin-bottom: 24px; }
+
+/* 草稿提示 */
+.draft {
+  background: var(--signal); color: var(--on-signal); font-size: 13px; font-weight: 700;
+  text-align: center; padding: 6px 16px;
+}
+
+/* ===== 首屏 ===== */
+.hero { background: var(--hero-bg); color: var(--hero-fg); padding-block: 28px 40px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700;
+  color: var(--hero-muted); letter-spacing: .06em;
+}
+.badge i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-fill); display: block; }
+.hero h1 {
+  font-size: clamp(34px, 9.4vw, 56px); line-height: 1.18; font-weight: 900; margin-top: 14px;
+  text-wrap: balance; letter-spacing: -.01em;
+}
+.hero h1 em { font-style: normal; color: var(--accent-fill); }
+.hero .sub { color: var(--hero-muted); margin-top: 14px; font-size: 17px; max-width: 30em; }
+.hero .sub b { color: var(--hero-fg); font-weight: 700; }
+
+.offer { display: flex; flex-wrap: wrap; align-items: stretch; gap: 14px; margin-top: 26px; }
+.tag {
+  position: relative; background: var(--signal); color: var(--on-signal);
+  border-radius: 6px 6px 10px 10px; padding: 22px 22px 16px; min-width: 0; flex: 1 1 250px;
+}
+.tag::before {
+  content: ""; position: absolute; top: 8px; left: 50%; width: 12px; height: 12px; margin-left: -6px;
+  border-radius: 50%; background: var(--hero-bg);
+}
+.tag .was { font-size: 14px; font-weight: 500; margin-top: 4px; }
+.tag .was s { font-family: var(--font-mono); font-weight: 700; text-decoration-thickness: 2px; }
+.tag .now-label { font-size: 14px; font-weight: 700; margin-top: 6px; }
+.tag .now { font-family: var(--font-mono); font-weight: 700; font-size: clamp(40px, 11vw, 54px); line-height: 1.1; font-variant-numeric: tabular-nums; }
+.tag .now small { font-size: .4em; margin-right: 4px; }
+.tag .save { display: inline-block; margin-top: 8px; font-size: 13px; font-weight: 700; border-top: 2px dashed currentColor; padding-top: 8px; }
+.hero-cta { display: flex; flex-direction: column; justify-content: center; gap: 10px; flex: 1 1 200px; min-width: 0; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 22px;
+  border-radius: 10px; background: var(--accent-fill); color: var(--on-accent); font-weight: 900; font-size: 18px;
+  text-decoration: none; text-align: center;
+}
+.btn:hover { filter: brightness(1.06); }
+.hero-cta p { font-size: 13px; color: var(--hero-muted); line-height: 1.6; }
+
+.chat { margin-top: 32px; background: var(--hero-panel); border-radius: 14px; padding: 16px; display: grid; gap: 10px; max-width: 520px; }
+.chat .cap { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; color: var(--hero-muted); }
+.bub { max-width: 86%; padding: 10px 14px; border-radius: 16px; font-size: 15px; line-height: 1.55; animation: rise .5s ease both; }
+.bub.me { justify-self: start; background: var(--hero-bubble); border-bottom-left-radius: 4px; }
+.bub.shop { justify-self: end; background: var(--accent-fill); color: var(--on-accent); border-bottom-right-radius: 4px; font-weight: 500; }
+.bub .lbl { display: block; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .08em; opacity: .75; margin-bottom: 2px; }
+.cards { justify-self: end; display: flex; gap: 8px; max-width: 100%; animation: rise .5s .15s ease both; }
+.mini { background: #fff; color: #10201A; border-radius: 10px; padding: 10px 12px; width: 138px; font-size: 13px; line-height: 1.4; }
+.mini b { display: block; font-size: 15px; }
+.mini span { color: #53655E; }
+.mini::before { content: ""; display: block; height: 34px; border-radius: 6px; background: linear-gradient(135deg, #1E40AF, #16296E); margin-bottom: 8px; }
+.bub:nth-child(4) { animation-delay: .3s; } .bub:nth-child(5) { animation-delay: .45s; }
+@keyframes rise { from { transform: translateY(10px); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .bub, .cards { animation: none; } }
+
+/* ===== 痛點 ===== */
+.pains { display: grid; gap: 14px; }
+.pain { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 10px; min-width: 0; }
+.pain h3 { font-size: 19px; font-weight: 900; line-height: 1.4; }
+.pain p { display: grid; grid-template-columns: 4.2em 1fr; gap: 10px; font-size: 15.5px; line-height: 1.7; }
+.pain p span { font-size: 12px; font-weight: 700; letter-spacing: .06em; padding-top: 4px; }
+.pain .now span { color: var(--pain); }
+.pain .after span { color: var(--accent-text); }
+.pain .after { background: var(--tint); border-radius: 8px; padding: 10px 12px; margin-inline: -4px; }
+.pain .feat { font-family: var(--font-mono); font-size: 12px; color: var(--muted); display: block; }
+
+/* ===== 包含項目 ===== */
+.scope { background: var(--surface); border-block: 1px solid var(--line); }
+.ticket { border: 2px dashed var(--line); border-radius: 12px; padding: 6px 18px; }
+.ticket li { display: grid; grid-template-columns: 26px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px dashed var(--line); }
+.ticket li:last-child { border-bottom: 0; }
+.ticket li::before {
+  content: ""; width: 22px; height: 22px; margin-top: 3px; border-radius: 6px; background-color: var(--accent-fill);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath d='M5.5 11.5l3.8 3.8 7.2-8' fill='none' stroke='%2304210F' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-size: 100% 100%;
+}
+.ticket b { display: block; font-weight: 900; }
+.ticket span { color: var(--muted); font-size: 15px; }
+.ticket .last b { color: var(--accent-text); }
+
+/* ===== 流程 ===== */
+.steps { display: grid; gap: 0; counter-reset: s; }
+.steps li { position: relative; display: grid; grid-template-columns: 44px 1fr; gap: 14px; padding-bottom: 26px; }
+.steps li:last-child { padding-bottom: 0; }
+.steps li::before {
+  counter-increment: s; content: counter(s); width: 44px; height: 44px; border-radius: 50%;
+  background: var(--ink); color: var(--bg); font-family: var(--font-mono); font-weight: 700; font-size: 18px;
+  display: grid; place-items: center; z-index: 1;
+}
+.steps li::after { content: ""; position: absolute; left: 21px; top: 44px; bottom: 0; width: 2px; background: var(--line); }
+.steps li:last-child::after { display: none; }
+.steps b { display: block; font-size: 18px; font-weight: 900; line-height: 1.4; padding-top: 8px; }
+.steps span { color: var(--muted); font-size: 15.5px; }
+
+.prep { margin-top: 28px; background: var(--tint); border-radius: 12px; padding: 18px; }
+.prep h3 { font-size: 17px; font-weight: 900; }
+.prep ul { margin-top: 10px; display: grid; gap: 6px 18px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.prep li { position: relative; padding-left: 18px; font-size: 15px; line-height: 1.6; }
+.prep li::before { content: ""; position: absolute; left: 0; top: 9px; width: 8px; height: 8px; border-radius: 2px; background: var(--accent-fill); }
+.prep p { color: var(--muted); font-size: 13.5px; margin-top: 10px; line-height: 1.6; }
+
+/* ===== 價格 ===== */
+.pricing { background: var(--surface); border-block: 1px solid var(--line); }
+.pgrid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.pgrid > * { min-width: 0; }
+.pgrid .tag { flex: none; }
+.notes { border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+.notes h3 { font-size: 17px; font-weight: 900; }
+.notes p { color: var(--muted); font-size: 15px; margin-top: 8px; }
+.fee { overflow-x: auto; margin-top: 12px; }
+.fee table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+.fee th, .fee td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.fee th { font-size: 12px; color: var(--muted); font-weight: 700; letter-spacing: .06em; }
+.fee td:nth-child(n+2) { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+/* ===== 關於 ===== */
+.about { display: grid; gap: 14px; max-width: 34em; }
+.about p { font-size: 16.5px; }
+.about .sign { font-weight: 900; }
+.area { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.area span { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 4px 14px; font-size: 14.5px; font-weight: 500; }
+.area-cap { margin-top: 26px; font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: .06em; }
+
+/* ===== FAQ ===== */
+.faq { display: grid; gap: 10px; }
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+summary { cursor: pointer; padding: 14px 18px; font-weight: 700; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; font-family: var(--font-mono); font-size: 20px; line-height: 1.4; color: var(--accent-text); }
+details[open] summary::after { content: "\2212"; }
+details p { padding: 0 18px 16px; color: var(--muted); font-size: 15.5px; }
+
+/* ===== 預約 ===== */
+.contact { background: var(--hero-bg); color: var(--hero-fg); text-align: left; }
+.contact h2 { color: var(--hero-fg); }
+.contact .lead { color: var(--hero-muted); }
+.contact .btn { margin-top: 22px; width: 100%; max-width: 380px; }
+.book { display: grid; gap: 14px; margin-top: 24px; max-width: 460px; }
+.stepbox { background: var(--hero-panel); border-radius: 12px; padding: 18px; min-width: 0; }
+.stepbox .k { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: .12em; color: var(--accent-fill); }
+.stepbox h3 { font-size: 19px; font-weight: 900; line-height: 1.4; margin-top: 2px; }
+.contact .stepbox .btn { margin-top: 14px; max-width: none; }
+.fields { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.fields span { font-size: 13.5px; background: var(--hero-bubble); color: var(--hero-fg); border-radius: 6px; padding: 2px 10px; }
+.stepbox .hint { margin-top: 10px; font-size: 13.5px; color: var(--hero-muted); line-height: 1.6; }
+.lineid { margin-top: 14px; font-size: 14px; color: var(--hero-muted); }
+.lineid code { font-family: var(--font-mono); color: var(--hero-fg); background: var(--hero-panel); padding: 2px 8px; border-radius: 4px; user-select: all; }
+.foot { padding-block: 22px; font-size: 12.5px; color: var(--muted); }
+
+/* ===== 固定底部 ===== */
+.bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--surface); border-top: 1px solid var(--line);
+  padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+}
+.bar .row { max-width: 760px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.bar .p { min-width: 0; line-height: 1.3; }
+.bar .p small { display: block; font-size: 12px; color: var(--muted); }
+.bar .p b { font-family: var(--font-mono); font-size: 22px; font-variant-numeric: tabular-nums; }
+.bar .p s { font-size: 12px; color: var(--muted); margin-left: 6px; font-family: var(--font-mono); }
+.bar .btn { min-height: 46px; font-size: 16px; padding-inline: 22px; white-space: nowrap; }
+</style>
+</head>
+<body>
+
+
+<header class="hero">
+  <div class="in">
+    <p class="badge"><i></i>商會車行專案</p>
+    <h1><em>機車行老闆</em>，<br>直接幫你架設官方 LINE</h1>
+    <p class="sub"><b>我自己開機車行，也在教 LINE 官方帳號。</b>你只要備好素材、把我加入管理員，設定我來做，做完再到店教你和夥伴怎麼用。</p>
+
+    <div class="offer">
+      <div class="tag">
+        <p class="was">市價 <s>NT$15,888</s></p>
+        <p class="now-label">商會車行價</p>
+        <p class="now"><small>NT$</small>5,888</p>
+        <p class="save">車行完整設立，省下 NT$10,000</p>
+      </div>
+      <div class="hero-cta">
+        <a class="btn" href="#contact">我要預約設立</a>
+        <p>設立加到店教學，一次完成。</p>
+      </div>
+    </div>
+
+    <div class="chat" aria-label="設好之後的客人對話範例">
+      <p class="cap">設好之後，客人這樣問、你這樣回</p>
+      <div class="bub me">七代戰 125、155 價格多少？</div>
+      <div class="cards">
+        <div class="mini"><b>七代戰 125</b><span>價格・分期</span></div>
+        <div class="mini"><b>七代戰 155</b><span>價格・分期</span></div>
+      </div>
+      <div class="bub me">明天有開嗎？（晚上 11:40）</div>
+      <div class="bub shop"><span class="lbl">休息時間自動回覆</span>目前是休息時間。車價與分期請看下方卡片，營業後第一時間回覆您。</div>
+    </div>
+  </div>
+</header>
+
+<section class="band">
+  <div class="in">
+    <div class="head">
+      <p class="eyebrow">車行的痛</p>
+      <h2>每天回訊息回到沒空修車？</h2>
+      <p class="lead">這六件事，官方 LINE 都能幫你接走。</p>
+    </div>
+    <div class="pains">
+      <article class="pain">
+        <h3>老闆一個人回，沒辦法休息</h3>
+        <p class="now"><span>現在</span>下班、假日都得盯著手機，一停下來客人就等不到。</p>
+        <p class="after"><span>設好後</span>夥伴也能一起回訊息，訊息內容統一管理，老闆可以放手。</p>
+        <span class="feat">多位管理員</span>
+      </article>
+      <article class="pain">
+        <h3>同樣的問題一直重複回</h3>
+        <p class="now"><span>現在</span>地址、營業時間、怎麼預約，一天要回好幾遍。</p>
+        <p class="after"><span>設好後</span>客人一加入就先收到歡迎訊息，常見問題自動回覆。</p>
+        <span class="feat">預設訊息・自動回覆</span>
+      </article>
+      <article class="pain">
+        <h3>客人問新車，要一台一台傳圖</h3>
+        <p class="now"><span>現在</span>問七代戰就傳一輪，問別台又傳一輪。</p>
+        <p class="after"><span>設好後</span>一則訊息放多張卡片，客人左右滑動看價格、分期，一次講完。</p>
+        <span class="feat">多頁訊息</span>
+      </article>
+      <article class="pain">
+        <h3>公休、半夜的訊息沒人回</h3>
+        <p class="now"><span>現在</span>客人沒等到回覆，轉頭就去問別家。</p>
+        <p class="after"><span>設好後</span>休假、半夜也不漏接。客人先收到營業時間，也能直接看車價與分期價格，還能先留下需求。</p>
+        <span class="feat">休息時間自動回覆・多頁訊息</span>
+      </article>
+      <article class="pain">
+        <h3>客人找不到資訊</h3>
+        <p class="now"><span>現在</span>保養、預約、地點、新車，客人要翻聊天紀錄才找得到。</p>
+        <p class="after"><span>設好後</span>聊天室下方放選單，客人點一下就到。</p>
+        <span class="feat">圖文選單</span>
+      </article>
+      <article class="pain">
+        <h3>想促銷，只能一通一通打電話</h3>
+        <p class="now"><span>現在</span>驗車、保養到期、優惠活動，沒有一次通知所有人的管道。</p>
+        <p class="after"><span>設好後</span>用圖文訊息和優惠券群發給好友，客人收到就能直接來店。</p>
+        <span class="feat">圖文訊息・群發・優惠券</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band scope">
+  <div class="in">
+    <div class="head">
+      <p class="eyebrow">完整設立</p>
+      <h2>這張工單，我全部幫你做完</h2>
+    </div>
+    <ul class="ticket">
+      <li><div><b>首頁設立</b><span>大頭貼、封面、簡介、營業資訊</span></div></li>
+      <li><div><b>預設訊息與自動回覆</b><span>含休息時間自動回覆，休假中客人也能看車價與分期</span></div></li>
+      <li><div><b>多頁訊息</b><span>新車報價、服務項目做成可滑動卡片</span></div></li>
+      <li><div><b>圖文選單設計與設定</b><span>聊天室下方的快速入口</span></div></li>
+      <li><div><b>圖文訊息設計與設定</b><span>活動、保養提醒的版面</span></div></li>
+      <li><div><b>群發與優惠券設定</b><span>發送方式與優惠券設定一次設好</span></div></li>
+      <li class="last"><div><b>到店教學</b><span>教你和夥伴實際操作，之後自己會改、會發</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<section class="band">
+  <div class="in">
+    <div class="head">
+      <p class="eyebrow">流程</p>
+      <h2>你準備素材，其餘我來</h2>
+    </div>
+    <ol class="steps">
+      <li><div><b>準備指定素材</b><span>依照我給你的清單整理，照片與文字資料即可。</span></div></li>
+      <li><div><b>把我加入管理員</b><span>由你在官方帳號後台邀請我，不需要給我密碼。</span></div></li>
+      <li><div><b>我開始設置</b><span>上面七個項目由我完成，做好會讓你先確認。</span></div></li>
+      <li><div><b>到店教學</b><span>我到你的店，教你和夥伴怎麼回訊息、改內容、發群發。</span></div></li>
+    </ol>
+    <div class="prep">
+      <h3>要先準備的素材（範例清單）</h3>
+      <ul>
+        <li>店面外觀與店內照片</li>
+        <li>Logo 或店招</li>
+        <li>營業時間與公休日</li>
+        <li>地址與電話</li>
+        <li>主力品牌與車款及價格</li>
+        <li>店內 10 吋、12 吋、13 吋輪胎：主力型號各 5 條與價錢</li>
+        <li>大保養的流程照片、保養項目與價格</li>
+        <li>10 個最難回答的問題（我給公版，你再修改成符合你店的風格）</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="band pricing">
+  <div class="in">
+    <div class="head">
+      <p class="eyebrow">價格</p>
+      <h2>商會車行價 NT$5,888</h2>
+    </div>
+    <div class="pgrid">
+      <div class="tag">
+        <p class="was">市價 <s>NT$15,888</s></p>
+        <p class="now-label">商會車行價</p>
+        <p class="now"><small>NT$</small>5,888</p>
+        <p class="save">含設立與到店教學，省下 NT$10,000</p>
+      </div>
+      <div class="notes">
+        <h3>不含：LINE 官方帳號月費</h3>
+        <p>月費與訊息費由店家自己負擔，依用量選方案。目前的方案如下：</p>
+        <div class="fee">
+          <table>
+            <thead><tr><th>方案</th><th>月費</th><th>則數</th></tr></thead>
+            <tbody>
+              <tr><td>輕用量</td><td>NT$0</td><td>200</td></tr>
+              <tr><td>中用量</td><td>NT$1,000</td><td>3,000</td></tr>
+              <tr><td>高用量</td><td>NT$1,400</td><td>6,000</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>自動回覆與一對一聊天不算則數，群發才算。我會依你的店幫你評估要選哪一個。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="in">
+    <div class="head">
+      <p class="eyebrow">為什麼是我</p>
+      <h2>我跟你一樣，是開機車行的</h2>
+    </div>
+    <div class="about">
+      <p>我開機車行，也在商會教 LINE 官方帳號。課上完，學員都說好用，也都說太快，回到店裡要自己從頭設定很難完成。</p>
+      <p>所以這次我換個方式：素材你準備，設定我來做，做完到店教你和夥伴。你的店馬上有一個能用的官方 LINE。</p>
+      <p class="sign">機車行老闆・LINE 官方帳號講師</p>
+    </div>
+    <p class="area-cap">服務區域</p>
+    <div class="area"><span>泰山</span><span>新莊</span><span>樹林</span><span>五股</span><span>林口</span><span>台北市</span><span>三重</span><span>蘆洲</span><span>中和</span><span>永和</span><span>等雙北地區</span></div>
+  </div>
+</section>
+
+<section class="band scope">
+  <div class="in">
+    <div class="head"><p class="eyebrow">常見問題</p><h2>先看這幾題</h2></div>
+    <div class="faq">
+      <details open>
+        <summary>把我加入管理員，安全嗎？</summary>
+        <p>我用管理員身分操作，不需要你的帳號密碼。教學結束後，你可以隨時把我從管理員名單移除。</p>
+      </details>
+      <details>
+        <summary>設好之後，想改內容怎麼辦？</summary>
+        <p>到店教學就是教你和夥伴自己改，包含訊息、選單、群發和優惠券。</p>
+      </details>
+      <details>
+        <summary>LINE 官方帳號的月費包含在內嗎？</summary>
+        <p>不包含。月費與訊息費由店家負擔，我會依你的店評估要選哪個方案。</p>
+      </details>
+      <details>
+        <summary>我的店不在服務區域可以嗎？</summary>
+        <p>可以。泰山、新莊、樹林、五股、林口、台北市、三重、蘆洲、中和、永和等雙北地區為主要服務區域，其他區域提供線上服務。</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="band contact" id="contact">
+  <div class="in">
+    <p class="eyebrow" style="color: var(--accent-fill)">預約設立</p>
+    <h2>讓機車行老闆，幫你的店架好官方 LINE</h2>
+    <a class="btn" href="https://liff.line.me/2012415109-bXC049QQ" target="_blank" rel="noopener">加我 LINE 好友</a>
+  </div>
+</section>
+
+<footer class="in foot">商會車行價適用於本頁方案，實際內容以預約確認為準。</footer>
+
+<div class="bar">
+  <div class="row">
+    <div class="p"><small>商會車行價</small><b>NT$5,888</b><s>NT$15,888</s></div>
+    <a class="btn" href="#contact">預約設立</a>
+  </div>
+</div>
+</body>
+</html>
